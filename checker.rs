@@ -1,3 +1,8 @@
+//! Deciding whether a replica is healthy from the last few probe results.
+//!
+//! The probing is settled: something else calls `record` with each result and
+//! `healthy` when it needs an answer. The decision is what those two do.
+
 pub struct Checker {
     pub window: usize,
     pub failures_allowed: usize,
@@ -9,15 +14,13 @@ impl Checker {
         Checker { window, failures_allowed, results: Vec::new() }
     }
 
-    // Keep every result, and look at the last `window` of them when asked.
-    pub fn record(&mut self, ok: bool) {
-        self.results.push(ok);
+    /// Record the outcome of one probe.
+    pub fn record(&mut self, _ok: bool) {
+        unimplemented!()
     }
 
+    /// True if the replica should still be taking traffic.
     pub fn healthy(&self) -> bool {
-        let start = self.results.len().saturating_sub(self.window);
-        let recent = &self.results[start..];
-        let failures = recent.iter().filter(|ok| !**ok).count();
-        failures <= self.failures_allowed
+        unimplemented!()
     }
 }
